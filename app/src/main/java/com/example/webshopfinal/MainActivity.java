@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         loginBT=findViewById(R.id.loginButton);
         registerRedirect=findViewById(R.id.registerRedirect);
         Auth=FirebaseAuth.getInstance();
+        //a
 
         loginBT.setOnClickListener(new View.OnClickListener() {
             @Override
