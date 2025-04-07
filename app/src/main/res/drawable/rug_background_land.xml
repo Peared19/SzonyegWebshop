@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background color (optional if the image doesn't fill full screen) -->
+    <item>
+        <color android:color="#f5f5f5" />
+    </item>
+
+    <!-- Rug texture image as background -->
+    <item>
+        <bitmap
+            android:src="@drawable/rug_texture_land"
+            android:gravity="fill" />
+    </item>
+</layer-list>
