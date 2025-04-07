@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "81891538559",
+    "project_id": "szonyeg-webshop-d304c",
+    "storage_bucket": "szonyeg-webshop-d304c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81891538559:android:fe7d8614494f4c0776714a",
+        "android_client_info": {
+          "package_name": "com.example.webshopfinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_Zg_StI5EXMOb1w1is1yX_UHimPg4BV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SzonyegWebshop</string>
+    <string name="name">Felhasználónév</string>
+    <string name="password">Jelszó</string>
+    <string name="login">Bejelentkezés</string>
+    <string name="registration">Regisztráció</string>
+    <string name="email">E-mail</string>
+    <string name="password_again">Jelszó megerősítése</string>
+    <string name="bej_fel">Bejelentkezési felület</string>
+    <string name="reg_fel">Regisztrációs felület</string>
+</resources>
