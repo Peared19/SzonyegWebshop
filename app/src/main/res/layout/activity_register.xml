@@ -8,18 +8,18 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/rug_background"
-
-
     tools:context=".RegisterActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardBackgroundColor="#80FFFFFF"
         app:cardCornerRadius="30dp"
-        app:cardElevation="40dp">
-
+        app:cardElevation="20dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="true"
+        app:cardMaxElevation="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +27,7 @@
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:padding="30dp">
+            
             <TextView
                 android:id="@+id/registerTextView"
                 android:layout_width="match_parent"
@@ -34,59 +35,77 @@
                 android:text="@string/registration"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:textSize="40sp"
+                android:textSize="36sp"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:shadowColor="@color/white"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"/>
+
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:id="@+id/registerUserNameET"
-                android:background="@color/lime"
-                android:padding="8dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
                 android:layout_marginTop="20dp"
                 android:hint="@string/name"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textColorHint="#80000000"/>
+
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:id="@+id/editTextEmail"
-                android:background="@color/lime"
-                android:padding="8dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
                 android:layout_marginTop="20dp"
                 android:hint="@string/email"
-                android:textColor="@color/black"/>
-            <EditText
-                android:inputType="textPassword"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/editTextPassword"
-                android:background="@color/lime"
-                android:padding="8dp"
-                android:layout_marginTop="20dp"
-                android:hint="@string/password"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textColorHint="#80000000"/>
 
             <EditText
                 android:inputType="textPassword"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
+                android:id="@+id/editTextPassword"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:layout_marginTop="20dp"
+                android:hint="@string/password"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textColorHint="#80000000"/>
+
+            <EditText
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
                 android:layout_marginTop="20dp"
                 android:id="@+id/registerPasswordAgainET"
-                android:background="@color/lime"
-                android:padding="8dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
                 android:hint="@string/password_again"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textColorHint="#80000000"/>
+
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/lime"
+                android:background="@drawable/button_background"
+                android:text="@string/registration"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:textColor="@color/white"
+                android:stateListAnimator="@anim/button_scale"/>
 
-
-
-                android:text="@string/registration"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,8 +115,11 @@
                 android:padding="8dp"
                 android:layout_marginTop="10dp"
                 android:textSize="18sp"
-                />
-
+                android:textStyle="bold"
+                android:shadowColor="@color/white"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

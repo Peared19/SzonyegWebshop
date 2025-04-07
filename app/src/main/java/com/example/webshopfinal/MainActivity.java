@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         loginBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.button_scale));
+                v.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.button_scale_reverse));
                 String email=userEmailET.getText().toString().trim();
                 String password=passwordET.getText().toString().trim();
 
