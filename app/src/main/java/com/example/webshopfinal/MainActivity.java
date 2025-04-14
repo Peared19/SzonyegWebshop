@@ -29,23 +29,17 @@ public class MainActivity extends AppCompatActivity {
     Button loginBT;
     TextView registerRedirect;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
+
         userEmailET = findViewById(R.id.editTextEmail);
         passwordET = findViewById(R.id.editTextPassword);
-        loginBT=findViewById(R.id.loginButton);
-        registerRedirect=findViewById(R.id.registerRedirect);
-        Auth=FirebaseAuth.getInstance();
-        //a
+        loginBT = findViewById(R.id.loginButton);
+        registerRedirect = findViewById(R.id.registerRedirect);
+        Auth = FirebaseAuth.getInstance();
 
         loginBT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 Toast.makeText(MainActivity.this,"Sikeres Bejelentkezés!",Toast.LENGTH_SHORT).show();
-                                //TODO start the actual app
+                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                                intent.putExtra("SECRET_KEY", 99);
+                                startActivity(intent);
                                 finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -75,31 +71,22 @@ public class MainActivity extends AppCompatActivity {
                         passwordET.setError("Adja meg a jelszavát");
                     }
 
-
-
                 }else if(email.isEmpty()){
                     userEmailET.setError("Adja meg e-mail címét");
                 }else{
                     userEmailET.setError("Nem megfelelő formátumú email");
                 }
-
             }
         });
-
 
         registerRedirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(MainActivity.this,RegisterActivity.class);
                 intent.putExtra("SECRET_KEY",88);
-
-
                 startActivity(intent);
             }
         });
-
-
-
     }
 
     @Override

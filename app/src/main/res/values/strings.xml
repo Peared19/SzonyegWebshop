@@ -8,4 +8,7 @@
     <string name="password_again">Jelszó megerősítése</string>
     <string name="bej_fel">Bejelentkezési felület</string>
     <string name="reg_fel">Regisztrációs felület</string>
+    <string name="store_name">Marci\'s carpet</string>
+    <string name="home_todo">Home, //TODO</string>
+    <string name="bejelentkezve">Bejelentkezve:</string>
 </resources>

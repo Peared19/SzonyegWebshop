@@ -13,7 +13,7 @@
         android:id="@+id/appTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Marci's carpet"
+        android:text="@string/store_name"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="42sp"
