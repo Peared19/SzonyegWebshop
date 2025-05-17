@@ -30,6 +30,13 @@
             android:layout_marginTop="16dp"
             android:text="Profilkép módosítása" />
 
+        <Button
+            android:id="@+id/deletePhotoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Profilkép törlése" />
+
         <!-- Email cím -->
         <TextView
             android:id="@+id/profileEmailText"

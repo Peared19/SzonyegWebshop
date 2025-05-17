@@ -51,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImagePicker imagePicker;
     private ImageView profileImageView;
     private Button changePhotoButton;
+    private Button deletePhotoButton;
     private FirebaseStorage storage;
     private FirebaseFirestore firestore;
     private enum PendingAction { NONE, CAMERA, GALLERY }
@@ -110,7 +111,9 @@ public class ProfileActivity extends AppCompatActivity {
         imagePicker = new ImagePicker(this);
         profileImageView = findViewById(R.id.profileImageView);
         changePhotoButton = findViewById(R.id.changePhotoButton);
+        deletePhotoButton = findViewById(R.id.deletePhotoButton);
         changePhotoButton.setEnabled(false);
+        deletePhotoButton.setEnabled(false);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -124,6 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
                     if (user.getHouseNumber() != null) houseNumberEditText.setText(user.getHouseNumber());
                     if (user.getProfileImageUrl() != null && !user.getProfileImageUrl().isEmpty()) {
                         Glide.with(this).load(user.getProfileImageUrl()).into(profileImageView);
+                        deletePhotoButton.setEnabled(true);
                     }
                 }
                 // Hide loading bar and enable fields/buttons
@@ -174,6 +178,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         changePhotoButton.setOnClickListener(v -> showImagePickerDialog());
+        deletePhotoButton.setOnClickListener(v -> deleteProfilePicture());
 
         LinearLayout ordersContainer = findViewById(R.id.ordersContainer);
         loadOrders(ordersContainer);
@@ -383,5 +388,63 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Hiba a rendelések betöltése során", Toast.LENGTH_SHORT).show();
                 loadingBar.setVisibility(View.GONE);
             });
+    }
+
+    private void deleteProfilePicture() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "Nincs bejelentkezett felhasználó!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Show confirmation dialog
+        new AlertDialog.Builder(this)
+            .setTitle("Profilkép törlése")
+            .setMessage("Biztosan törölni szeretnéd a profilképed?")
+            .setPositiveButton("Igen", (dialog, which) -> {
+                // Delete from Firebase Storage
+                StorageReference storageRef = storage.getReference()
+                    .child("profile_images")
+                    .child(currentUser.getUid() + ".jpg");
+
+                storageRef.delete()
+                    .addOnSuccessListener(aVoid -> {
+                        // Update Firestore to remove the profile image URL
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("profileImageUrl", "");
+
+                        firestore.collection("users")
+                            .document(currentUser.getUid())
+                            .set(updates, SetOptions.merge())
+                            .addOnSuccessListener(aVoid2 -> {
+                                // Reset the profile image to default
+                                profileImageView.setImageResource(R.drawable.default_profile);
+                                deletePhotoButton.setEnabled(false);
+                                Toast.makeText(this, getString(R.string.profile_picture_deleted), Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Hiba történt a profil frissítésekor!", Toast.LENGTH_SHORT).show();
+                            });
+                    })
+                    .addOnFailureListener(e -> {
+                        // If the file doesn't exist in storage, just update Firestore
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("profileImageUrl", "");
+
+                        firestore.collection("users")
+                            .document(currentUser.getUid())
+                            .set(updates, SetOptions.merge())
+                            .addOnSuccessListener(aVoid -> {
+                                profileImageView.setImageResource(R.drawable.default_profile);
+                                deletePhotoButton.setEnabled(false);
+                                Toast.makeText(this, getString(R.string.profile_picture_deleted), Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e2 -> {
+                                Toast.makeText(this, "Hiba történt a profil frissítésekor!", Toast.LENGTH_SHORT).show();
+                            });
+                    });
+            })
+            .setNegativeButton("Mégse", null)
+            .show();
     }
 } 

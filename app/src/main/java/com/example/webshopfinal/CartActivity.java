@@ -48,7 +48,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        createNotificationChannel();
+        
         // Notification permission kérés Android 13+ esetén
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -341,25 +341,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
                     Toast.makeText(this, "Hiba a kosár lekérdezése során!", Toast.LENGTH_SHORT).show();
                 }
             });
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                "order_channel",
-                "Rendelés értesítések",
-                NotificationManager.IMPORTANCE_HIGH
-            );
-            channel.setDescription("Értesítések a sikeres rendelésekhez");
-            channel.enableLights(true);
-            channel.enableVibration(true);
-            channel.setShowBadge(true);
-            
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
     }
 
     private void scheduleOrderNotification() {

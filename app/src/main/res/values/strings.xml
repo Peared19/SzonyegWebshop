@@ -1,14 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SzonyegWebshop</string>
-    <string name="name">Felhasználónév</string>
-    <string name="password">Jelszó</string>
+    <string name="app_name">WebshopFinal</string>
+    <string name="store_name">Marci\'s carpet</string>
+    
+    <!-- Authentication -->
     <string name="login">Bejelentkezés</string>
-    <string name="registration">Regisztráció</string>
-    <string name="email">E-mail</string>
-    <string name="password_again">Jelszó megerősítése</string>
+    <string name="register">Regisztráció</string>
+    <string name="email">Email</string>
+    <string name="password">Jelszó</string>
+    <string name="confirm_password">Jelszó megerősítése</string>
+    <string name="already_have_account">Már van fiókod?</string>
+    <string name="dont_have_account">Nincs még fiókod?</string>
+    <string name="login_success">Sikeres bejelentkezés!</string>
+    <string name="login_failed">Sikertelen bejelentkezés!</string>
+    <string name="register_success">Sikeres regisztráció!</string>
+    <string name="register_failed">Sikertelen regisztráció!</string>
+    <string name="password_mismatch">A jelszavak nem egyeznek!</string>
+    <string name="invalid_email">Érvénytelen email cím!</string>
+    <string name="invalid_password">A jelszónak legalább 6 karakter hosszúnak kell lennie!</string>
+    <string name="logout">Kijelentkezés</string>
     <string name="bej_fel">Bejelentkezési felület</string>
     <string name="reg_fel">Regisztrációs felület</string>
-    <string name="store_name">Marci\'s carpet</string>
-    <string name="home_todo">Home, //TODO</string>
     <string name="bejelentkezve">Bejelentkezve:</string>
+    <string name="registration">Regisztráció</string>
+    <string name="name">Név</string>
+    <string name="password_again">Jelszó újra</string>
+    <string name="home_todo">Válassz egy opciót</string>
+    <string name="delete_profile_picture">Profilkép törlése</string>
+    <string name="profile_picture_deleted">Profilkép sikeresen törölve!</string>
+    
+    <!-- Navigation -->
+    <string name="profile">Profil</string>
+    <string name="cart">Kosár</string>
+    <string name="add_carpet">Szőnyeg hozzáadása</string>
+    
+    <!-- Actions -->
+    <string name="save">Mentés</string>
+    <string name="cancel">Mégse</string>
+    <string name="delete">Törlés</string>
+    <string name="edit">Szerkesztés</string>
+    <string name="checkout">Fizetés</string>
+    
+    <!-- Cart -->
+    <string name="price">Ár</string>
+    <string name="quantity">Mennyiség</string>
+    <string name="total">Összesen</string>
+    <string name="add_to_cart">Kosárba</string>
+    <string name="remove_from_cart">Kosárból</string>
+    <string name="empty_cart">A kosár üres!</string>
+    <string name="order_success">Sikeres rendelés!</string>
+    <string name="order_failed">Sikertelen rendelés!</string>
+    
+    <!-- Image handling -->
+    <string name="select_image">Kép kiválasztása</string>
+    <string name="take_photo">Fénykép készítése</string>
+    <string name="choose_from_gallery">Kép kiválasztása galériából</string>
+    
+    <!-- Permissions -->
+    <string name="permission_required">Engedély szükséges</string>
+    <string name="permission_denied">Engedély megtagadva</string>
+    
+    <!-- Error messages -->
+    <string name="error_loading_image">Hiba a kép betöltésekor</string>
+    <string name="error_saving_image">Hiba a kép mentésekor</string>
+    <string name="error_uploading_image">Hiba a kép feltöltésekor</string>
+    <string name="error_loading_carpets">Hiba a szőnyegek betöltésekor</string>
+    <string name="error_loading_cart">Hiba a kosár betöltésekor</string>
+    <string name="error_loading_orders">Hiba a rendelések betöltésekor</string>
+    <string name="error_loading_profile">Hiba a profil betöltésekor</string>
+    <string name="error_saving_profile">Hiba a profil mentésekor</string>
+    <string name="error_saving_carpet">Hiba a szőnyeg mentésekor</string>
+    <string name="error_deleting_carpet">Hiba a szőnyeg törlésekor</string>
+    <string name="error_updating_cart">Hiba a kosár frissítésekor</string>
+    <string name="error_placing_order">Hiba a rendelés leadásakor</string>
 </resources>
