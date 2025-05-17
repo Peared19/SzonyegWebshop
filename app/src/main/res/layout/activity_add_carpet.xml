@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/addCarpetName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Név"
+            android:inputType="text"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0123456789 .,-"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/addCarpetDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Leírás"
+            android:inputType="textMultiLine"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0123456789 .,-"
+            android:minLines="2"
+            android:gravity="top|start"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/addCarpetPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ár (Ft)"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/addCarpetMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Anyag"
+            android:inputType="text"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0123456789 .,-"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/addCarpetWidth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Szélesség (m)"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/addCarpetLength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hosszúság (m)"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/addCarpetColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Szín"
+            android:inputType="text"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0123456789 .,-"
+            android:imeOptions="actionDone" />
+
+        <ImageView
+            android:id="@+id/addCarpetImagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/selectCarpetImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kép kiválasztása galériából"
+            android:layout_marginBottom="8dp" />
+
+        <ProgressBar
+            android:id="@+id/addCarpetLoadingBar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/saveCarpetButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Szőnyeg mentése"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</ScrollView> 

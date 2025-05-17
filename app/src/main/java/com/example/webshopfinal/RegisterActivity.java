@@ -21,7 +21,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -92,8 +96,20 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(RegisterActivity.this,"Sikeres regisztráció!",Toast.LENGTH_SHORT).show();
+                                FirebaseUser user = Auth.getCurrentUser();
+                                if (user != null) {
+                                    FirestoreDao.getInstance().createUserDocument(
+                                        user,
+                                        userNameET.getText().toString().trim(),
+                                        aVoid -> {
+                                            // User document created
+                                        },
+                                        e -> {
+                                            // Handle error
+                                        }
+                                    );
+                                }
                                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-
                             }else{
                                 Toast.makeText(RegisterActivity.this,"Sikertelen regisztráció!"+ Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
 
