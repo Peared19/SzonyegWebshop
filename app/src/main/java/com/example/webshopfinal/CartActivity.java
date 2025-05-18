@@ -48,24 +48,18 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        
-        // Notification permission kérés Android 13+ esetén
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1002);
             }
         }
-
         recyclerView = findViewById(R.id.cartRecyclerView);
         totalPriceText = findViewById(R.id.totalPriceText);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         cartItems = new ArrayList<>();
         carpets = new ArrayList<>();
         dao = FirestoreDao.getInstance();
-
         loadCartItems();
-
         Button checkoutButton = findViewById(R.id.checkoutButton);
         checkoutButton.setOnClickListener(v -> handleCheckout());
     }
@@ -79,7 +73,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
                 cartItems.addAll(items);
                 loadCarpets();
             }
-
             @Override
             public void onError(Exception e) {
                 Toast.makeText(CartActivity.this, "Hiba a kosár betöltésekor", Toast.LENGTH_SHORT).show();
@@ -112,15 +105,13 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
         } else {
             adapter.notifyDataSetChanged();
         }
-        
-        // Wait for layout to complete before animating
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {
                     View child = recyclerView.getChildAt(i);
                     Animation animation = AnimationUtils.loadAnimation(CartActivity.this, R.anim.fade_in);
-                    animation.setStartOffset(i * 100); // 100ms delay between each item
+                    animation.setStartOffset(i * 100);
                     child.startAnimation(animation);
                 }
             }
@@ -160,7 +151,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
                 updateAdapter();
                 updateTotalPrice();
             }
-
             @Override
             public void onError(Exception e) {
                 Toast.makeText(CartActivity.this, "Hiba a mennyiség módosítása során", Toast.LENGTH_SHORT).show();
@@ -203,17 +193,12 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
             Toast.makeText(this, "A kosár üres!", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Disable checkout button to prevent multiple orders
         Button checkoutButton = findViewById(R.id.checkoutButton);
         checkoutButton.setEnabled(false);
-
-        // Create a copy of the cart items to prevent modification during order
         List<CartItem> orderItems = new ArrayList<>();
         for (CartItem item : cartItems) {
             orderItems.add(new CartItem(item.getCarpetDocId(), item.getQuantity()));
         }
-
         double total = 0;
         for (CartItem item : orderItems) {
             for (Carpet carpet : carpets) {
@@ -224,7 +209,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
                 }
             }
         }
-
         Map<String, Object> order = new HashMap<>();
         order.put("userId", user.getUid());
         order.put("userEmail", user.getEmail());
@@ -237,31 +221,23 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
         order.put("items", orderItems);
         order.put("total", total);
         order.put("timestamp", Timestamp.now());
-
         FirebaseFirestore.getInstance().collection("orders")
             .add(order)
             .addOnSuccessListener(documentReference -> {
                 if (isFinishing() || isDestroyed()) {
                     return;
                 }
-                
-                // Clear cart first
                 clearCart(user.getUid(), () -> {
                     if (isFinishing() || isDestroyed()) {
                         return;
                     }
-
-                    // Show success message
                     Toast.makeText(this, "Rendelés sikeresen leadva!", Toast.LENGTH_LONG).show();
-                    
-                    // Schedule notification
+                    showOrderPlacedNotification();
                     try {
                         scheduleOrderNotification();
                     } catch (Exception e) {
                         Log.e("CartActivity", "Error scheduling notification: " + e.getMessage());
                     }
-
-                    // Return to home screen
                     try {
                         Intent intent = new Intent(this, HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -277,8 +253,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
                 if (isFinishing() || isDestroyed()) {
                     return;
                 }
-
-                // Re-enable checkout button
                 checkoutButton.setEnabled(true);
                 Toast.makeText(this, "Hiba a rendelés leadásakor!", Toast.LENGTH_SHORT).show();
                 Log.e("CartActivity", "Error placing order: " + e.getMessage());
@@ -292,7 +266,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
             }
             return;
         }
-
         FirebaseFirestore.getInstance().collection("users")
             .document(userId).collection("cart")
             .get()
@@ -300,12 +273,10 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
                 if (isFinishing() || isDestroyed()) {
                     return;
                 }
-
                 List<Task<Void>> deleteTasks = new ArrayList<>();
                 for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
                     deleteTasks.add(doc.getReference().delete());
                 }
-                
                 if (deleteTasks.isEmpty()) {
                     if (!isFinishing() && !isDestroyed()) {
                         cartItems.clear();
@@ -345,25 +316,18 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
 
     private void scheduleOrderNotification() {
         try {
-            // Create notification intent
             Intent intent = new Intent(this, OrderNotificationReceiver.class);
             intent.setAction("com.example.webshopfinal.ORDER_NOTIFICATION");
             intent.putExtra("order_success", true);
-            
-            // Create pending intent with unique request code
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
                 (int) System.currentTimeMillis(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
-            
-            // Schedule the notification
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             if (alarmManager != null) {
-                long triggerAtMillis = System.currentTimeMillis() + 5000; // 5 seconds delay
-                
-                // Try to use exact alarm if permission is available
+                long triggerAtMillis = System.currentTimeMillis() + 5000;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     if (alarmManager.canScheduleExactAlarms()) {
                         alarmManager.setExactAndAllowWhileIdle(
@@ -373,7 +337,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
                         );
                         Log.d("CartActivity", "Exact alarm scheduled");
                     } else {
-                        // Fallback to inexact alarm
                         alarmManager.set(
                             AlarmManager.RTC_WAKEUP,
                             triggerAtMillis,
@@ -382,7 +345,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
                         Log.d("CartActivity", "Inexact alarm scheduled");
                     }
                 } else {
-                    // For older Android versions
                     alarmManager.setExact(
                         AlarmManager.RTC_WAKEUP,
                         triggerAtMillis,
@@ -396,4 +358,25 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnCar
             Log.e("CartActivity", "Error scheduling notification: " + e.getMessage());
         }
     }
-} 
+
+    private void showOrderPlacedNotification() {
+        String channelId = "order_channel";
+        String channelName = "Order Notifications";
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_DEFAULT
+            );
+            notificationManager.createNotificationChannel(channel);
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle("Rendelés leadva!")
+            .setContentText("A rendelésed sikeresen leadva.")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true);
+        notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+    }
+}

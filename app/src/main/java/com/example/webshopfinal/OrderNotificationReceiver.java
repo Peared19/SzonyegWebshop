@@ -14,14 +14,14 @@ public class OrderNotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            // Create notification channel
+            
             createNotificationChannel(context);
 
-            // Create intent to open MainActivity (login screen)
+            
             Intent notificationIntent = new Intent(context, MainActivity.class);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             
-            // Create pending intent
+            
             PendingIntent pendingIntent = PendingIntent.getActivity(
                 context,
                 0,
@@ -29,7 +29,7 @@ public class OrderNotificationReceiver extends BroadcastReceiver {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
 
-            // Build notification
+            
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "order_channel")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Sikeres rendelés!")
@@ -38,7 +38,7 @@ public class OrderNotificationReceiver extends BroadcastReceiver {
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
-            // Show notification
+            
             NotificationManager notificationManager = 
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (notificationManager != null) {

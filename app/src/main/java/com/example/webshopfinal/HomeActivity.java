@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
-        // Notification permission kérés Android 13+ esetén
+        
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1002);
@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
 
-        // Verify secret key
+        
         int secretKey = getIntent().getIntExtra("SECRET_KEY", 0);
         if (secretKey != SECRET_KEY) {
             Toast.makeText(this, "Unauthorized access", Toast.LENGTH_SHORT).show();
@@ -68,27 +68,27 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
 
-        // Set up loading bar
+        
         homeLoadingBar = findViewById(R.id.homeLoadingBar);
         homeLoadingBar.setVisibility(View.VISIBLE);
 
-        // Set up RecyclerView
+        
         carpetRecyclerView = findViewById(R.id.carpetRecyclerView);
         carpetRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         carpetAdapter = new CarpetAdapter(this, carpetList, carpetDocId -> {
-            // On carpet click: open detail activity
+            
             Intent intent = new Intent(HomeActivity.this, CarpetDetailActivity.class);
             intent.putExtra("carpet_doc_id", carpetDocId);
             startActivity(intent);
         });
         carpetRecyclerView.setAdapter(carpetAdapter);
 
-        // Load carpets from Firestore
+        
         loadCarpets();
 
 
 
-        // Profil ikon kattintás
+        
         ImageView profileIcon = findViewById(R.id.profileIcon);
         profileIcon.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
@@ -152,6 +152,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+
+
+
         loadCarpets();
     }
 

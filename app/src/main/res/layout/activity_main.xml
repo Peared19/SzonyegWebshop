@@ -8,7 +8,7 @@
     tools:context=".RegisterActivity"
     android:background="@drawable/rug_background">
 
-    <!-- Felirat a CardView fölött -->
+    
     <TextView
         android:id="@+id/appTitleTextView"
         android:layout_width="0dp"

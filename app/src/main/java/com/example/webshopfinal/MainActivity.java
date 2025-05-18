@@ -41,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
         registerRedirect = findViewById(R.id.registerRedirect);
         Auth = FirebaseAuth.getInstance();
 
+        androidx.cardview.widget.CardView loginCard = findViewById(R.id.cardView);
+        if (loginCard != null) {
+            loginCard.post(() -> {
+                loginCard.startAnimation(android.view.animation.AnimationUtils.loadAnimation(this, R.anim.slide_up));
+            });
+        }
+
         loginBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

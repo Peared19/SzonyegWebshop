@@ -41,7 +41,7 @@ public class AddCarpetActivity extends AppCompatActivity {
         Button selectImageBtn = findViewById(R.id.selectCarpetImageButton);
         ProgressBar loadingBar = findViewById(R.id.addCarpetLoadingBar);
 
-        saveBtn.setEnabled(false); // Disable save until image is uploaded
+        saveBtn.setEnabled(false); 
 
         ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -49,7 +49,7 @@ public class AddCarpetActivity extends AppCompatActivity {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     selectedImageUri = result.getData().getData();
                     Glide.with(this).load(selectedImageUri).into(imagePreview);
-                    // Start upload
+                    
                     uploadImageToFirebase(selectedImageUri);
                 }
             }
@@ -90,10 +90,10 @@ public class AddCarpetActivity extends AppCompatActivity {
             FirebaseFirestore.getInstance().collection("carpets").add(carpet)
                 .addOnSuccessListener(docRef -> {
                     Toast.makeText(this, "Szőnyeg hozzáadva!", Toast.LENGTH_SHORT).show();
-                    // Go back to HomeActivity
+                    
                     Intent intent = new Intent(this, HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("SECRET_KEY", 99); // Use the same secret key as after login
+                    intent.putExtra("SECRET_KEY", 99); 
                     startActivity(intent);
                     finish();
                 })
@@ -115,7 +115,7 @@ public class AddCarpetActivity extends AppCompatActivity {
                 uploadedImageUrl = uri.toString();
                 Toast.makeText(this, "Kép feltöltve!", Toast.LENGTH_SHORT).show();
                 Button saveBtn = findViewById(R.id.saveCarpetButton);
-                saveBtn.setEnabled(true); // Enable save after upload
+                saveBtn.setEnabled(true);
                 loadingBar.setVisibility(View.GONE);
             });
         }).addOnFailureListener(e -> {

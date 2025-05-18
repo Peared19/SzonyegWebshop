@@ -33,7 +33,7 @@ public class FirestoreDao {
         return instance;
     }
 
-    // Upload a Carpet to Firestore
+    
     public void uploadCarpet(Context context, Carpet carpet) {
         firestore.collection("carpets")
                 .add(carpet)
@@ -41,7 +41,7 @@ public class FirestoreDao {
                 .addOnFailureListener(e -> Toast.makeText(context, "Hiba a feltöltéskor: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    // Save user address to Firestore
+    
     public void saveUserAddress(Context context, FirebaseUser user, String zip, String city, String street, String houseNumber) {
         if (user == null) return;
         Map<String, Object> address = new HashMap<>();
@@ -56,7 +56,6 @@ public class FirestoreDao {
                 .addOnFailureListener(e -> Toast.makeText(context, "Hiba a mentéskor: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    // Upload profile image to Firebase Storage and save URL to Firestore
     public void uploadProfileImage(Context context, FirebaseUser user, Uri imageUri) {
         if (user == null || imageUri == null) return;
         StorageReference storageRef = FirebaseStorage.getInstance().getReference()
@@ -64,7 +63,7 @@ public class FirestoreDao {
         UploadTask uploadTask = storageRef.putFile(imageUri);
         uploadTask.addOnSuccessListener(taskSnapshot ->
             storageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                // Save the download URL to Firestore
+                
                 Map<String, Object> update = new HashMap<>();
                 update.put("profileImageUrl", downloadUri.toString());
                 firestore.collection("users")

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/rug_background">
 
-    <!-- Felső sáv -->
+    
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="0dp"

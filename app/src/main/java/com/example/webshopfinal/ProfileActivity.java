@@ -62,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    // Handle camera image
+                    
                     Uri imageUri = imagePicker.getImageUri();
                     loadImage(imageUri);
                 }
@@ -73,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    // Handle gallery image
+                    
                     if (result.getData() != null && result.getData().getData() != null) {
                         Uri uri = result.getData().getData();
                         loadImage(uri);
@@ -93,7 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         emailTextView = findViewById(R.id.profileEmailText);
 
-        // Lakcím mezők
+        
         EditText zipEditText = findViewById(R.id.zipEditText);
         EditText cityEditText = findViewById(R.id.cityEditText);
         EditText streetEditText = findViewById(R.id.streetEditText);
@@ -101,7 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
         Button saveAddressButton = findViewById(R.id.saveAddressButton);
         profileLoadingBar = findViewById(R.id.profileLoadingBar);
 
-        // Disable fields and button while loading
+        
         zipEditText.setEnabled(false);
         cityEditText.setEnabled(false);
         streetEditText.setEnabled(false);
@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             emailTextView.setText(currentUser.getEmail());
-            // Load user object and set address fields
+            
             FirestoreDao.getInstance().getUser(currentUser, user -> {
                 if (user != null) {
                     if (user.getZip() != null) zipEditText.setText(user.getZip());
@@ -130,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity {
                         deletePhotoButton.setEnabled(true);
                     }
                 }
-                // Hide loading bar and enable fields/buttons
+                
                 profileLoadingBar.setVisibility(View.GONE);
                 zipEditText.setEnabled(true);
                 cityEditText.setEnabled(true);
@@ -187,7 +187,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Frissítjük a felhasználói adatokat és rendeléseket
+        
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             FirestoreDao.getInstance().getUser(currentUser, user -> {
@@ -216,14 +216,14 @@ public class ProfileActivity extends AppCompatActivity {
                         case 0:
                             pendingAction = PendingAction.CAMERA;
                             imagePicker.checkCameraPermission(() -> {
-                                // Only open camera if permission is already granted
+                                
                                 imagePicker.openCamera(cameraLauncher);
                             });
                             break;
                         case 1:
                             pendingAction = PendingAction.GALLERY;
                             imagePicker.checkGalleryPermission(() -> {
-                                // Only open gallery if permission is already granted
+                                
                                 imagePicker.openGallery(galleryLauncher);
                             });
                             break;
@@ -248,25 +248,25 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        // Create a reference to the location where the image will be stored
+        
         StorageReference storageRef = storage.getReference()
                 .child("profile_images")
                 .child(currentUser.getUid() + ".jpg");
 
-        // Upload the image
+        
         UploadTask uploadTask = storageRef.putFile(imageUri);
 
-        // Add progress listener
+        
         uploadTask.addOnProgressListener(taskSnapshot -> {
             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
             Toast.makeText(this, "Feltöltés: " + (int) progress + "%", Toast.LENGTH_SHORT).show();
         });
 
-        // Add success listener
+        
         uploadTask.addOnSuccessListener(taskSnapshot -> {
-            // Get the download URL
+            
             storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                // Update the user's profile in Firestore
+                
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("profileImageUrl", uri.toString());
 
@@ -397,19 +397,19 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        // Show confirmation dialog
+        
         new AlertDialog.Builder(this)
             .setTitle("Profilkép törlése")
             .setMessage("Biztosan törölni szeretnéd a profilképed?")
             .setPositiveButton("Igen", (dialog, which) -> {
-                // Delete from Firebase Storage
+                
                 StorageReference storageRef = storage.getReference()
                     .child("profile_images")
                     .child(currentUser.getUid() + ".jpg");
 
                 storageRef.delete()
                     .addOnSuccessListener(aVoid -> {
-                        // Update Firestore to remove the profile image URL
+                        
                         Map<String, Object> updates = new HashMap<>();
                         updates.put("profileImageUrl", "");
 
@@ -417,7 +417,7 @@ public class ProfileActivity extends AppCompatActivity {
                             .document(currentUser.getUid())
                             .set(updates, SetOptions.merge())
                             .addOnSuccessListener(aVoid2 -> {
-                                // Reset the profile image to default
+                                
                                 profileImageView.setImageResource(R.drawable.default_profile);
                                 deletePhotoButton.setEnabled(false);
                                 Toast.makeText(this, getString(R.string.profile_picture_deleted), Toast.LENGTH_SHORT).show();
@@ -427,7 +427,7 @@ public class ProfileActivity extends AppCompatActivity {
                             });
                     })
                     .addOnFailureListener(e -> {
-                        // If the file doesn't exist in storage, just update Firestore
+                        
                         Map<String, Object> updates = new HashMap<>();
                         updates.put("profileImageUrl", "");
 

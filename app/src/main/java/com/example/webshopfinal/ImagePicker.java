@@ -73,7 +73,7 @@ public class ImagePicker {
         try {
             photoFile = createImageFile();
         } catch (Exception ex) {
-            // Error occurred while creating the File
+            
         }
 
         if (photoFile != null) {
